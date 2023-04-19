@@ -10,7 +10,7 @@
 2. `npm run dev` and play with the local dev environment.
 3. `npm run build`.
 
-demo deployed : https://sparkling-naiad-d124af.netlify.app/
+demo deployed : https://dash-js-app.netlify.app/
 
 ### Read the documentation
 
