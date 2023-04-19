@@ -153,6 +153,7 @@ function UserDetailPost() {
           setShowDeleteModal(false);
         }}
         isOpen={showDeleteModal}
+        isComment={true}
       />
       <ModalAddComment
         onClickCancel={() => setShowAddCommentModal(false)}
@@ -180,6 +181,7 @@ function UserDetailPost() {
         isOpen={showEditCommentModal}
         setCommentForm={setCommentForm}
         commentForm={commentForm}
+        editMode={true}
       />
       <ToastContainer />
     </>

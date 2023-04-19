@@ -13,8 +13,8 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/users/:userId/posts" element={<UserPosts />} />
-          <Route path="/posts/:postId/comments" element={<UserDetailPost />} />
           <Route path="/users/:userId/albums" element={<UserAlbums />} />
+          <Route path="/posts/:postId/comments" element={<UserDetailPost />} />
           <Route path="/albums/:albumId/photos" element={<UserPhotos />} />
         </Routes>
       </Router>

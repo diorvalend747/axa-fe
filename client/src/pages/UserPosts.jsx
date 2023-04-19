@@ -116,7 +116,7 @@ function UserPosts() {
         <div className="basis-1/5">
           <Sidebar user={user || location?.state?.user} />
         </div>
-        <div className="container p-7 ml-7">
+        <div className="container p-7">
           <div className="flex justify-between">
             <h3 className="text-gray-700 text-3xl font-medium">
               {user.name} Posts
@@ -183,6 +183,7 @@ function UserPosts() {
         isOpen={showEditPostModal}
         setPostForm={setPostForm}
         postForm={postForm}
+        editMode={true}
       />
       <ToastContainer />
     </>
