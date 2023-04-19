@@ -1,0 +1,31 @@
+@media screen and (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  thead {
+    display: none;
+  }
+  tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
+  }
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+  td:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
