@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 function Sidebar({ user }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -18,9 +19,13 @@ function Sidebar({ user }) {
         </div>
 
         <nav className="mt-10">
-          <a
-            className="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-            href={`/users/${user?.userId || location?.state?.userId}/posts`}
+          <div
+            onClick={() =>
+              navigate(
+                `/users/${user?.userId || location?.state?.userId}/posts`
+              )
+            }
+            className="cursor-pointer flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg
               className="w-6 h-6"
@@ -38,13 +43,15 @@ function Sidebar({ user }) {
             </svg>
 
             <span className="mx-3">Posts</span>
-          </a>
+          </div>
 
-          <a
-            className="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-            href={`/users/${
-              user?.userId || location?.state?.user?.userId
-            }/albums`}
+          <div
+            onClick={() =>
+              navigate(
+                `/users/${user?.userId || location?.state?.user?.userId}/albums`
+              )
+            }
+            className="cursor-pointer flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg
               className="w-6 h-6"
@@ -62,7 +69,7 @@ function Sidebar({ user }) {
             </svg>
 
             <span className="mx-3">Album</span>
-          </a>
+          </div>
 
           <a
             className="flex items-center px-6 py-2 mt-4 absolute bottom-4 w-full text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
