@@ -68,8 +68,9 @@ const ModalAddPost = ({
           </div>
           <div className="flex items-center justify-between w-full">
             <button
+              disabled={!postForm?.body || !postForm?.title}
               onClick={() => onClickSubmit()}
-              className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-10 py-2 text-sm"
+              className="disabled:bg-gray-100 disabled:border disabled:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-10 py-2 text-sm"
             >
               {editMode ? "Edit" : "Post"}
             </button>

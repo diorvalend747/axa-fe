@@ -18,8 +18,8 @@ function UserPosts() {
   const [showAddPostModal, setShowAddPostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [postForm, setPostForm] = useState({
-    title: null,
-    body: null,
+    title: "",
+    body: "",
     userId: null,
   });
 
