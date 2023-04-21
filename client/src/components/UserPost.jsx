@@ -1,4 +1,3 @@
-import config from "../api/base";
 import { useNavigate } from "react-router";
 
 function UserPost({
@@ -45,11 +44,31 @@ function UserPost({
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                           {index + 1}.
                         </td>
-                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                        <td
+                          onClick={() =>
+                            navigate(`/posts/${item.id}/comments`, {
+                              state: {
+                                title: item?.title,
+                                user: user,
+                              },
+                            })
+                          }
+                          className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"
+                        >
                           {item?.title}
                         </td>
 
-                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                        <td
+                          onClick={() =>
+                            navigate(`/posts/${item.id}/comments`, {
+                              state: {
+                                title: item?.title,
+                                user: user,
+                              },
+                            })
+                          }
+                          className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"
+                        >
                           {item?.body}
                         </td>
 

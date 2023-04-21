@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
-function Sidebar({ user }) {
-  const location = useLocation();
+function Sidebar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
+
+  const dataUser = localStorage.getItem("user");
+  const userDetail = JSON.parse(dataUser);
 
   return (
     <>
@@ -22,8 +24,8 @@ function Sidebar({ user }) {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            clip-rule="evenodd"
-            fill-rule="evenodd"
+            clipRule="evenodd"
+            fillRule="evenodd"
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
         </svg>
@@ -34,18 +36,14 @@ function Sidebar({ user }) {
         <div className="flex ml-6 mt-8">
           <a>
             <span className="text-2xl font-semibold text-white">
-              @{user?.userName || location?.state?.user?.userName}
+              @{userDetail?.userName}
             </span>
           </a>
         </div>
 
         <nav className="mt-10">
           <div
-            onClick={() =>
-              navigate(
-                `/users/${user?.userId || location?.state?.userId}/posts`
-              )
-            }
+            onClick={() => navigate(`/users/${userDetail?.userId}/posts`)}
             className="cursor-pointer flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg
@@ -67,11 +65,7 @@ function Sidebar({ user }) {
           </div>
 
           <div
-            onClick={() =>
-              navigate(
-                `/users/${user?.userId || location?.state?.user?.userId}/albums`
-              )
-            }
+            onClick={() => navigate(`/users/${userDetail?.userId}/albums`)}
             className="cursor-pointer flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg
@@ -92,9 +86,9 @@ function Sidebar({ user }) {
             <span className="mx-3">Album</span>
           </div>
 
-          <a
-            className="flex items-center px-6 py-2 mt-4 absolute bottom-4 w-full text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-            href={`/`}
+          <div
+            onClick={() => navigate(`/`)}
+            className="flex items-center cursor-pointer px-6 py-2 mt-4 absolute bottom-4 w-full text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg
               fill="gray"
@@ -123,7 +117,7 @@ function Sidebar({ user }) {
             </svg>
 
             <span className="mx-3">Back To Home</span>
-          </a>
+          </div>
         </nav>
       </div>
     </>

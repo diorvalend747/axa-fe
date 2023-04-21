@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../components/Sidebar";
@@ -8,16 +7,12 @@ import UserPost from "../components/UserPost";
 import SkeletonLoader from "../components/SkeletonLoader";
 import ModalDelete from "../components/ModalDelete";
 import ModalAddPost from "../components/ModalAddPost";
+import { dataUser } from "../util";
 import config from "../api/base";
 
 function UserPosts() {
-  const [isLoadingPost, setLoading] = useState(false);
+  const [isLoadingPost, setLoading] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
-  const [user, setUser] = useState({
-    name: null,
-    userName: null,
-    userId: null,
-  });
   const [postId, setPostId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddPostModal, setShowAddPostModal] = useState(false);
@@ -29,7 +24,8 @@ function UserPosts() {
   });
 
   const { userId } = useParams();
-  const location = useLocation();
+
+  const userDetail = JSON.parse(dataUser);
 
   const notify = () => toast("Post deleted!");
   const notifyCreated = () => toast("Post created!");
@@ -37,25 +33,9 @@ function UserPosts() {
 
   const _getUserPosts = async () => {
     try {
-      setLoading(true);
       const { data } = await config.get(`/users/${userId}/posts`);
       setUserPosts(data);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const _getUser = async () => {
-    try {
-      const { data } = await config.get(
-        `/users/${userId || location?.state?.users.id}`
-      );
-      setUser({
-        name: data?.name,
-        userName: data?.username,
-        userId: data?.id,
-      });
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +55,7 @@ function UserPosts() {
     }
   };
 
-  const _editPost = async () => {
+  const _editPost = async (postId) => {
     try {
       setLoading(true);
       const { data } = await config.put(`/posts/${postId}`, {
@@ -83,7 +63,16 @@ function UserPosts() {
         id: postId,
         userId: Number(userId),
       });
-      setUserPosts(userPosts);
+      setUserPosts(
+        userPosts.reduce((acc, curr) => {
+          if (postId === curr.id) {
+            acc.push(data);
+          } else {
+            acc.push(curr);
+          }
+          return acc;
+        }, [])
+      );
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -92,10 +81,11 @@ function UserPosts() {
 
   const _deletePost = async (id) => {
     try {
-      const response = await config.delete(`/posts/${id}`);
       setLoading(true);
-      const { data } = await config.get(`/users/${userId}/posts`);
-      setUserPosts(data.filter((item) => item.id !== id));
+      const response = await config.delete(`/posts/${id}`);
+      if (response.status === 200) {
+        setUserPosts(userPosts.filter((item) => item.id !== id));
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -106,20 +96,16 @@ function UserPosts() {
     _getUserPosts();
   }, []);
 
-  useEffect(() => {
-    _getUser();
-  }, [userId]);
-
   return (
     <>
       <div className="flex overflow-hidden">
         <div className="basis-1/5">
-          <Sidebar user={user || location?.state?.user} />
+          <Sidebar />
         </div>
         <div className="container p-7">
           <div className="flex justify-between">
             <h3 className="text-gray-700 text-3xl font-medium">
-              {user.name} Posts
+              {userDetail.name} Posts
             </h3>
             <button
               onClick={() => setShowAddPostModal(true)}
@@ -135,7 +121,7 @@ function UserPosts() {
           ) : (
             <UserPost
               data={userPosts}
-              user={user}
+              user={userDetail}
               setShowModalDelete={setShowDeleteModal}
               setPostId={setPostId}
               setPostForm={setPostForm}

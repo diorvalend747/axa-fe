@@ -1,7 +1,3 @@
-import config from "../api/base";
-import SkeletonLoader from "./SkeletonLoader";
-import { useNavigate } from "react-router";
-
 function DetailPost({
   data,
   setCommentId = () => {},

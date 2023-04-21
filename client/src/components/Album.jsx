@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-// import AlbumSVG from "../assets/album.svg";
 
 function Album({ data, user }) {
   const navigate = useNavigate();

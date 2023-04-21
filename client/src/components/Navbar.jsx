@@ -10,13 +10,11 @@ const Navbar = () => {
             href="/"
             className="text-3xl no-underline text-grey-darkest font-sans font-bold"
           >
-            B3K3N SEJUTA CITA
+            Admin Dashboard
           </a>
           <br />
           <div className="text-center">
-            <p className="text-m text-grey-dark">
-              Get Fresh Books to Develop Yourself
-            </p>
+            <p className="text-m text-grey-dark">Just Original Dashboard</p>
           </div>
         </div>
       </div>

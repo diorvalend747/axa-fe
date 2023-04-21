@@ -1,6 +1,7 @@
 import useFetchUsers from "../hooks/useFetchUsers";
 import { Link, useNavigate } from "react-router-dom";
 import SkeletonLoader from "../components/SkeletonLoader";
+import { saveUser } from "../util";
 
 function Home() {
   const [isLoading, users] = useFetchUsers();
@@ -48,13 +49,8 @@ function Home() {
                   <>
                     <tr
                       onClick={() => {
-                        navigate(`users/${user.id}/posts`, {
-                          state: {
-                            name: user?.name,
-                            userName: user?.username,
-                            userId: user?.id,
-                          },
-                        });
+                        navigate(`users/${user.id}/posts`);
+                        saveUser(user);
                       }}
                       key={index}
                       className="hover:bg-slate-100 cursor-pointer p-9"

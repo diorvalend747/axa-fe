@@ -7,16 +7,12 @@ import DetailPost from "../components/DetailPost";
 import SkeletonLoader from "../components/SkeletonLoader";
 import ModalDelete from "../components/ModalDelete";
 import ModalAddComment from "../components/ModalAddComment";
+import { dataUser } from "../util";
 import config from "../api/base";
 
 function UserDetailPost() {
-  const [isLoadingDetailPost, setLoading] = useState(false);
+  const [isLoadingDetailPost, setLoading] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
-  const [user, setUser] = useState({
-    name: null,
-    userName: null,
-    userId: null,
-  });
   const [commentId, setCommentId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
@@ -32,31 +28,17 @@ function UserDetailPost() {
   const { postId } = useParams();
   const location = useLocation();
 
+  const userDetail = JSON.parse(dataUser);
+
   const notify = () => toast("Comment deleted!");
   const notifyCreated = () => toast("Comment created!");
   const notifyEdited = () => toast("Comment edited!");
 
   const _getDetailPost = async () => {
     try {
-      setLoading(true);
       const { data } = await config.get(`/posts/${postId}/comments`);
       setUserPosts(data);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const _getUser = async () => {
-    try {
-      const { data } = await config.get(
-        `/users/${location?.state?.user?.userId}`
-      );
-      setUser({
-        name: data?.name,
-        userName: data?.username,
-        userId: data?.id,
-      });
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +49,7 @@ function UserDetailPost() {
       setLoading(true);
       const { data } = await config.post(`/comments`, {
         ...commentForm,
-        userId: Number(location?.state?.user?.userId),
+        userId: Number(userDetail?.userId),
       });
       setUserPosts([data, ...userPosts]);
       setLoading(false);
@@ -76,16 +58,24 @@ function UserDetailPost() {
     }
   };
 
-  const _editComment = async () => {
+  const _editComment = async (commentId) => {
     try {
       setLoading(true);
       const { data } = await config.put(`/comments/${commentId}`, {
         ...commentForm,
         id: commentId,
-        userId: Number(location?.state?.user?.userId),
+        userId: Number(userDetail?.userId),
       });
-      console.log(data);
-      setUserPosts(userPosts);
+      setUserPosts(
+        userPosts.reduce((acc, curr) => {
+          if (commentId === curr.id) {
+            acc.push(data);
+          } else {
+            acc.push(curr);
+          }
+          return acc;
+        }, [])
+      );
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -94,10 +84,11 @@ function UserDetailPost() {
 
   const _deleteComment = async (id) => {
     try {
-      const response = await config.delete(`/comments/${id}`);
       setLoading(true);
-      const { data } = await config.get(`/posts/${postId}/comments`);
-      setUserPosts(data.filter((item) => item.id !== id));
+      const response = await config.delete(`/comments/${id}`);
+      if (response.status === 200) {
+        setUserPosts(userPosts.filter((item) => item.id !== id));
+      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -108,20 +99,16 @@ function UserDetailPost() {
     _getDetailPost();
   }, []);
 
-  useEffect(() => {
-    _getUser();
-  }, [location?.state?.user?.userId]);
-
   return (
     <>
       <div className="flex overflow-hidden">
         <div className="basis-1/5">
-          <Sidebar user={user} />
+          <Sidebar />
         </div>
         <div className="container p-7 ml-7">
           <div className="flex justify-between">
             <h3 className="text-gray-700 text-3xl font-medium">
-              {location?.state?.title}
+              {location?.state?.title} - Comments
             </h3>
             <button
               onClick={() => setShowAddCommentModal(true)}
