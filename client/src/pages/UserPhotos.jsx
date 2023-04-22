@@ -21,9 +21,9 @@ function UserPhoto() {
         <div className="basis-1/5">
           <Sidebar />
         </div>
-        <div className="container p-7 ml-7">
+        <div className="container p-7">
           <h3 className="text-gray-700 text-3xl font-medium mb-7">
-            {location?.state?.title} - Photos
+            Photos - {location?.state?.title}
           </h3>
           <div className="grid gap-5 md:gap-8 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 transition-all">
             {isLoadingPhotos ? (

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../components/Sidebar";
 import DetailPost from "../components/DetailPost";
 import SkeletonLoader from "../components/SkeletonLoader";
 import ModalDelete from "../components/ModalDelete";
 import ModalAddComment from "../components/ModalAddComment";
-import { dataUser } from "../util";
 import config from "../api/base";
 
 function UserDetailPost() {
@@ -28,7 +28,7 @@ function UserDetailPost() {
   const { postId } = useParams();
   const location = useLocation();
 
-  const userDetail = JSON.parse(dataUser);
+  const userDetail = useSelector((state) => state.user);
 
   const notify = () => toast("Comment deleted!");
   const notifyCreated = () => toast("Comment created!");
@@ -105,16 +105,30 @@ function UserDetailPost() {
         <div className="basis-1/5">
           <Sidebar />
         </div>
-        <div className="container p-7 ml-7">
+        <div className="container p-7">
           <div className="flex justify-between">
-            <h3 className="text-gray-700 text-3xl font-medium">
-              {location?.state?.title} - Comments
+            <h3 className="text-gray-700 text-3xl font-medium truncate w-2/3">
+              Comments - {location?.state?.title}
             </h3>
             <button
               onClick={() => setShowAddCommentModal(true)}
-              className="block uppercase shadow bg-yellow-500 hover:bg-yellow-600 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 mr-3 rounded"
+              className="flex uppercase shadow bg-slate-500 hover:bg-slate-600 focus:shadow-outline focus:outline-none text-white gap-2 py-3 px-5 rounded"
             >
-              Add Comment
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              <p>Comment</p>
             </button>
           </div>
           {isLoadingDetailPost ? (

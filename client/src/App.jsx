@@ -12,10 +12,12 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/users/:userId/posts" element={<UserPosts />} />
-          <Route path="/users/:userId/albums" element={<UserAlbums />} />
-          <Route path="/posts/:postId/comments" element={<UserDetailPost />} />
-          <Route path="/albums/:albumId/photos" element={<UserPhotos />} />
+          <Route path="users">
+            <Route path=":userId/posts" element={<UserPosts />} />
+            <Route path=":userId/albums" element={<UserAlbums />} />
+          </Route>
+          <Route path="posts/:postId/comments" element={<UserDetailPost />} />
+          <Route path="albums/:albumId/photos" element={<UserPhotos />} />
         </Routes>
       </Router>
     </>

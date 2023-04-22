@@ -32,7 +32,9 @@ function Album({ data, user }) {
                           navigate(`/albums/${item.id}/photos`, {
                             state: {
                               title: item?.title,
-                              user: user,
+                              username: user?.username,
+                              id: user?.id,
+                              name: user?.name,
                             },
                           })
                         }
@@ -50,7 +52,7 @@ function Album({ data, user }) {
                             onClick={() =>
                               navigate(`/albums/${item.id}/photos`)
                             }
-                            className="block uppercase mr-8 mx-auto shadow bg-indigo-600 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded"
+                            className="block uppercase mr-8 mx-auto shadow bg-slate-600 hover:bg-slate-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded"
                           >
                             See Photos
                           </button>

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
+import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../components/Sidebar";
-import UserPost from "../components/UserPost";
+import UserPost from "../components/Post";
 import SkeletonLoader from "../components/SkeletonLoader";
 import ModalDelete from "../components/ModalDelete";
 import ModalAddPost from "../components/ModalAddPost";
-import { dataUser } from "../util";
 import config from "../api/base";
 
 function UserPosts() {
@@ -24,8 +24,9 @@ function UserPosts() {
   });
 
   const { userId } = useParams();
+  const location = useLocation();
 
-  const userDetail = JSON.parse(dataUser);
+  const userDetail = useSelector((state) => state.user);
 
   const notify = () => toast("Post deleted!");
   const notifyCreated = () => toast("Post created!");
@@ -105,13 +106,27 @@ function UserPosts() {
         <div className="container p-7">
           <div className="flex justify-between">
             <h3 className="text-gray-700 text-3xl font-medium">
-              {userDetail.name} Posts
+              {userDetail.name || location?.state?.name}'s Posts
             </h3>
             <button
               onClick={() => setShowAddPostModal(true)}
-              className="block uppercase shadow bg-yellow-500 hover:bg-yellow-600 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 mr-3 rounded"
+              className="flex uppercase shadow bg-slate-500 hover:bg-slate-600 focus:shadow-outline focus:outline-none text-white gap-2 py-3 px-5 rounded"
             >
-              Add Post
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              <p>Post</p>
             </button>
           </div>
           {isLoadingPost ? (
@@ -121,7 +136,7 @@ function UserPosts() {
           ) : (
             <UserPost
               data={userPosts}
-              user={userDetail}
+              user={location?.state}
               setShowModalDelete={setShowDeleteModal}
               setPostId={setPostId}
               setPostForm={setPostForm}

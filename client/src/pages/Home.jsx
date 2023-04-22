@@ -1,11 +1,13 @@
 import useFetchUsers from "../hooks/useFetchUsers";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import SkeletonLoader from "../components/SkeletonLoader";
-import { saveUser } from "../util";
+import { setUser } from "../store/actionCreators";
 
 function Home() {
   const [isLoading, users] = useFetchUsers();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -49,8 +51,14 @@ function Home() {
                   <>
                     <tr
                       onClick={() => {
-                        navigate(`users/${user.id}/posts`);
-                        saveUser(user);
+                        navigate(`users/${user.id}/posts`, {
+                          state: {
+                            name: user.name,
+                            username: user.username,
+                            id: user.id,
+                          },
+                        });
+                        dispatch(setUser(user));
                       }}
                       key={index}
                       className="hover:bg-slate-100 cursor-pointer p-9"
@@ -60,12 +68,10 @@ function Home() {
                       </td> */}
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 tracking-wider text-xs leading-4">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10">
-                            <img
-                              className="h-10 w-10 rounded-full"
-                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                              alt=""
-                            />
+                          <div className="h-10 w-10 bg-slate-500 rounded-full">
+                            <div className="text-white mt-1 text-lg font-bold text-center items-center justify-center flex">
+                              {user.name[0]}
+                            </div>
                           </div>
 
                           <div className="ml-4">
@@ -103,7 +109,7 @@ function Home() {
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
                         <Link to={`users/${user.id}/posts`}>
-                          <div className="text-indigo-900 hover:text-white hover:bg-slate-600 px-5 py-1 inline-flex text-s leading-5 font-semibold rounded-full bg-slate-400">
+                          <div className="text-white hover:text-white hover:bg-slate-600 px-5 py-1 inline-flex text-s leading-5 font-semibold rounded-full bg-slate-500">
                             Detail User
                           </div>
                         </Link>
