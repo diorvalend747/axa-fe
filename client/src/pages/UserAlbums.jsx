@@ -22,11 +22,11 @@ function UserAlbum() {
             {userDetail.name || location?.state?.name}'s Albums
           </h3>
           {isLoadingAlbums ? (
-            <div className="mt-6">
+            <div className="mt-12">
               <SkeletonLoader />
             </div>
           ) : (
-            <Album data={userAlbums} user={location?.state} />
+            <Album data={userAlbums} user={userDetail} />
           )}
         </div>
       </div>

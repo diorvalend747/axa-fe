@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 function Sidebar() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [user, setUser] = useState({});
   const [open, setOpen] = useState(true);
   const userDetail = useSelector((state) => state.user);
-
-  useEffect(() => {
-    setUser(location?.state);
-  }, []);
 
   return (
     <>
@@ -38,25 +32,17 @@ function Sidebar() {
       <div
         className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 duration-300 transform bg-gray-900`}
       >
-        <div className="flex ml-6 mt-8">
+        <div className="flex ml-6 mt-8 ">
           <a>
             <span className="text-2xl font-semibold text-white">
-              @{userDetail?.username || user?.username}
+              @{userDetail?.username}
             </span>
           </a>
         </div>
 
         <nav className="mt-10">
           <div
-            onClick={() =>
-              navigate(`/users/${userDetail?.id || user?.id}/posts`, {
-                state: {
-                  name: user?.name,
-                  username: user?.username,
-                  id: user?.id,
-                },
-              })
-            }
+            onClick={() => navigate(`/users/${userDetail?.id}/posts`)}
             className="cursor-pointer flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg
@@ -78,15 +64,7 @@ function Sidebar() {
           </div>
 
           <div
-            onClick={() =>
-              navigate(`/users/${userDetail?.id || user?.id}/albums`, {
-                state: {
-                  name: user?.name,
-                  username: user?.username,
-                  id: user?.id,
-                },
-              })
-            }
+            onClick={() => navigate(`/users/${userDetail?.id}/albums`)}
             className="cursor-pointer flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
           >
             <svg

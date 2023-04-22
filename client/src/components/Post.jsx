@@ -58,9 +58,6 @@ function UserPost({
                               navigate(`/posts/${item.id}/comments`, {
                                 state: {
                                   title: item?.title,
-                                  username: user?.username,
-                                  id: user?.id,
-                                  name: user?.name,
                                 },
                               })
                             }

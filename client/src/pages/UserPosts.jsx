@@ -130,13 +130,13 @@ function UserPosts() {
             </button>
           </div>
           {isLoadingPost ? (
-            <div className="mt-6">
+            <div className="mt-9">
               <SkeletonLoader />
             </div>
           ) : (
             <UserPost
               data={userPosts}
-              user={location?.state}
+              user={userDetail}
               setShowModalDelete={setShowDeleteModal}
               setPostId={setPostId}
               setPostForm={setPostForm}
