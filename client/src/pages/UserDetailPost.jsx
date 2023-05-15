@@ -102,12 +102,12 @@ function UserDetailPost() {
   return (
     <>
       <div className="flex overflow-hidden">
-        <div className="basis-1/5">
+        <div className="md:flex-shrink-0 md:w-64">
           <Sidebar />
         </div>
-        <div className="container p-7">
-          <div className="flex justify-between">
-            <h3 className="text-gray-700 text-3xl font-medium truncate w-2/3">
+        <div className="flex-grow mx-auto container p-7">
+          <div className="flex flex-col gap-2 lg:flex-row lg:justify-between">
+            <h3 className="text-gray-700 text-3xl font-medium">
               Comments - {location?.state?.title}
             </h3>
             <button

@@ -18,7 +18,6 @@ const ModalComponent = ({
       overlay: {
         backgroundColor: "rgba(40,40,40,0.7)",
         zIndex: 11,
-        // backgroundColor: 'rgba(193, 199, 208,0.6)',
         ...style.overlay,
       },
       content: {

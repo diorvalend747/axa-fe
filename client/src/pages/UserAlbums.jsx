@@ -14,10 +14,10 @@ function UserAlbum() {
   return (
     <>
       <div className="flex overflow-hidden">
-        <div className="basis-1/5">
+        <div className="md:flex-shrink-0 md:w-64">
           <Sidebar />
         </div>
-        <div className="container p-7">
+        <div className="flex-grow mx-auto container p-7">
           <h3 className="text-gray-700 text-3xl font-medium">
             {userDetail.name || location?.state?.name}'s Albums
           </h3>

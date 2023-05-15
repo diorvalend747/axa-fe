@@ -18,10 +18,10 @@ function UserPhoto() {
   return (
     <>
       <div className="flex overflow-hidden">
-        <div className="basis-1/5">
+        <div className="md:flex-shrink-0 md:w-64">
           <Sidebar />
         </div>
-        <div className="container p-7">
+        <div className="flex-grow mx-auto container p-7">
           <h3 className="text-gray-700 text-3xl font-medium mb-7">
             Photos - {location?.state?.title}
           </h3>
@@ -29,11 +29,16 @@ function UserPhoto() {
             {isLoadingPhotos ? (
               <SkeletonLoaderPhoto />
             ) : (
-              <CardPhoto
-                data={userPhotos}
-                setShowModal={setShowModal}
-                setDetailPhoto={setDetailPhoto}
-              />
+              userPhotos.map((photo, index) => {
+                return (
+                  <CardPhoto
+                    index={index}
+                    photo={photo}
+                    setShowModal={setShowModal}
+                    setDetailPhoto={setDetailPhoto}
+                  />
+                );
+              })
             )}
           </div>
         </div>

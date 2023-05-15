@@ -20,6 +20,7 @@ function ModalPicture({ detailPhoto, isOpen, onClose }) {
             alt={`image random`}
             height="800"
             width="800"
+            loading="lazy"
           />
           <h6 className="text-md sm:text-lg font-bold mt-4 text-gray-700 text-center">
             {detailPhoto?.title}
